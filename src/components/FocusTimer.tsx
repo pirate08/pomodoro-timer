@@ -19,8 +19,9 @@ const FocusTimer = () => {
       interval = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
       }, 1000);
-    } else if (timeLeft <= 0) {
+    } else if (timeLeft === 0) {
       setIsRunning(false);
+      setStart(false);
       setTimeLeft(TOTAL_SECONDS);
     }
     return () => clearInterval(interval);

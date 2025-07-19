@@ -20,6 +20,10 @@ const Timer = () => {
       interval = setInterval(() => {
         setTimePassed((prev) => prev + 1);
       }, 1000);
+    } else if (timePassed >= TOTAL_SECONDS) {
+      setIsRunning(false);
+      setStart(false);
+      setTimePassed(0);
     }
     return () => clearInterval(interval);
   }, [isRunning, timePassed]);
@@ -36,6 +40,19 @@ const Timer = () => {
     return `${h} : ${m} : ${s}`;
   };
 
+  // --Handle start and pause--
+  const handleStartPause = () => {
+    setStart(!start);
+    setIsRunning(!isRunning);
+  };
+
+  // --Handle reset
+  const handleReset = () => {
+    setIsRunning(false);
+    setTimePassed(0);
+    setStart(false);
+  };
+
   return (
     <div className='flex flex-col items-center justify-center text-white h-full mt-10'>
       {/* --Progressbar-- */}
@@ -49,20 +66,12 @@ const Timer = () => {
       {/* --Buttons-- */}
       <div className='mt-6 flex gap-4'>
         <button
-          onClick={() => setStart(!start)}
+          onClick={() => handleStartPause()}
           className='text-2xl text-white bg-yellow-500 hover:bg-yellow-600 rounded-full p-4 cursor-pointer'>
-          {start ? (
-            <IoIosPause onClick={() => setIsRunning(false)} />
-          ) : (
-            <VscDebugStart onClick={() => setIsRunning(true)} />
-          )}
+          {start ? <IoIosPause /> : <VscDebugStart />}
         </button>
         <button
-          onClick={() => {
-            setIsRunning(false);
-            setTimePassed(0);
-            setStart(false);
-          }}
+          onClick={() => handleReset()}
           className='text-2xl text-white bg-white/10 hover:bg-white/20 rounded-full p-4 cursor-pointer'>
           <RiResetLeftLine />
         </button>
