@@ -58,7 +58,7 @@ const FocusTimer = () => {
       <div>
         <ProgressBar
           time={formatTime(timeLeft)}
-          label='Focus Timer'
+          label='Focus Time'
           progress={progress}
         />
       </div>
@@ -66,7 +66,7 @@ const FocusTimer = () => {
       <div className='mt-6 flex gap-4'>
         <button
           onClick={() => handleStartPause()}
-          className='text-2xl text-white bg-orange-500 hover:bg-orange-600 rounded-full p-4 cursor-pointer'>
+          className='text-2xl text-white bg-orange-500 hover:bg-orange-600 rounded-full p-4 cursor-pointer hover:scale-105 transition-transform duration-200'>
           {start ? <IoIosPause /> : <VscDebugStart />}
         </button>
         <button

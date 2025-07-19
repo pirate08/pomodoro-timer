@@ -67,7 +67,7 @@ const Timer = () => {
       <div className='mt-6 flex gap-4'>
         <button
           onClick={() => handleStartPause()}
-          className='text-2xl text-white bg-yellow-500 hover:bg-yellow-600 rounded-full p-4 cursor-pointer'>
+          className='text-2xl text-white bg-yellow-500 hover:bg-yellow-600 rounded-full p-4 cursor-pointer hover:scale-105 transition-transform duration-200'>
           {start ? <IoIosPause /> : <VscDebugStart />}
         </button>
         <button

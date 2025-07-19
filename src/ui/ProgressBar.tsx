@@ -38,6 +38,9 @@ const ProgressBar = ({ time, label, progress }: ProgressBarProps) => {
             strokeDasharray={strokeDasharray}
             strokeDashoffset={strokeDashOffset}
             strokeLinecap='round'
+            style={{
+              transition: 'stroke-dashoffset 0.8s ease-in-out',
+            }}
           />
         </svg>
         <div className='absolute inset-0 flex items-center flex-col justify-center'>
