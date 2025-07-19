@@ -11,6 +11,8 @@ const ProgressBar = ({ time, label, progress }: ProgressBarProps) => {
   const strokeDasharray = 283;
   const strokeDashOffset = strokeDasharray - (progress / 100) * strokeDasharray;
 
+  const textSize = label === 'Timer' ? 'text-4xl' : 'text-5xl';
+
   return (
     <div>
       {/* --Circle Ui-- */}
@@ -39,7 +41,7 @@ const ProgressBar = ({ time, label, progress }: ProgressBarProps) => {
           />
         </svg>
         <div className='absolute inset-0 flex items-center flex-col justify-center'>
-          <h1 className='text-4xl font-bold text-white mb-6'>{time}</h1>
+          <h1 className={`${textSize} font-bold text-white mb-6`}>{time}</h1>
           <h1 className='text-sm bg-white/10 hover:bg-white/20 text-white hover:text-black border cursor-pointer border-white/30 px-5  rounded-full backdrop-blur-sm transition-colors duration-200'>
             {label}
           </h1>

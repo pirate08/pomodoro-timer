@@ -6,13 +6,14 @@ import { RiResetLeftLine } from 'react-icons/ri';
 import { IoIosPause } from 'react-icons/io';
 import { VscDebugStart } from 'react-icons/vsc';
 
-const TOTAL_SECONDS = 86400; // 24 hours in seconds
+const TOTAL_SECONDS = 86400;
 
 const Timer = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [timePassed, setTimePassed] = useState<number>(0);
   const [start, setStart] = useState<boolean>(false);
 
+  // Handle timer start and pause
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isRunning && timePassed < TOTAL_SECONDS) {
@@ -23,6 +24,7 @@ const Timer = () => {
     return () => clearInterval(interval);
   }, [isRunning, timePassed]);
 
+  // Format time in HH : MM : SS
   const formatTime = (totalSeconds: number): string => {
     const h = Math.floor(totalSeconds / 3600)
       .toString()
@@ -44,6 +46,7 @@ const Timer = () => {
           progress={(timePassed / TOTAL_SECONDS) * 100}
         />
       </div>
+      {/* --Buttons-- */}
       <div className='mt-6 flex gap-4'>
         <button
           onClick={() => setStart(!start)}
@@ -58,6 +61,7 @@ const Timer = () => {
           onClick={() => {
             setIsRunning(false);
             setTimePassed(0);
+            setStart(false);
           }}
           className='text-2xl text-white bg-white/10 hover:bg-white/20 rounded-full p-4 cursor-pointer'>
           <RiResetLeftLine />

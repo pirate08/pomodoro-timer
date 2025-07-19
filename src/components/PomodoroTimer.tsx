@@ -3,7 +3,7 @@ import ItemBar from '../ui/ItemBar';
 
 const PomodoroTimer = () => {
   return (
-    <div className='font-sans flex flex-col gap-10 justify-start h-screen items-center p-10 pb-10 '>
+    <div className='font-sans flex flex-col gap-10 justify-start h-full items-center p-10 pb-10 '>
       {/* --Title and Paragraph-- */}
       <div className='flex flex-col items-center gap-4'>
         <h1 className='text-3xl md:text-4xl font-bold text-center'>

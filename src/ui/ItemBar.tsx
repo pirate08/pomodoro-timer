@@ -23,21 +23,6 @@ const itemBarItems: ItemBarItem[] = [
 const ItemBar = () => {
   const [selected, setSelected] = useState<string>('Focus Time');
 
-  const renderComponent = () => {
-    switch (selected) {
-      case 'Timer':
-        return <Timer />;
-      case 'Focus Time':
-        return <FocusTimer />;
-      case 'Short Break':
-        return <ShortBreak />;
-      case 'Long Break':
-        return <LongBreak />;
-      default:
-        return <FocusTimer />;
-    }
-  };
-
   return (
     <div>
       <div className='grid grid-cols-2 md:grid-cols-4 gap-4 text-center'>
@@ -74,8 +59,19 @@ const ItemBar = () => {
           );
         })}
       </div>
-      {/* Rendering the component */}
-      <div>{renderComponent()}</div>
+
+      {/* Render components - Timer persists, others are conditional */}
+      <div>
+        {/* Timer component - always mounted, just hidden when not selected */}
+        <div className={selected === 'Timer' ? 'block' : 'hidden'}>
+          <Timer />
+        </div>
+
+        {/* Other components - conditionally rendered (will reset when switching) */}
+        {selected === 'Focus Time' && <FocusTimer />}
+        {selected === 'Short Break' && <ShortBreak />}
+        {selected === 'Long Break' && <LongBreak />}
+      </div>
     </div>
   );
 };
