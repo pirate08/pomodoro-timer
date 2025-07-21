@@ -39,6 +39,17 @@ const FocusTimer = () => {
       setIsRunning(false);
       setStart(false);
       setTimeLeft(TOTAL_SECONDS);
+
+      // --Store session count--
+      const sessionCount = Number(localStorage.getItem('focusSessions') || 0);
+      const newSessionCount = sessionCount + 1;
+      localStorage.setItem('focusSessions', newSessionCount.toString());
+
+      // ✅ Store cycle count (every 4 sessions = 1 cycle)
+      if (newSessionCount % 4 === 0) {
+        const cycleCount = Number(localStorage.getItem('cyclesDone') || 0);
+        localStorage.setItem('cyclesDone', (cycleCount + 1).toString());
+      }
     }
     return () => clearInterval(interval);
   }, [isRunning, timeLeft, playCountdownSound]);

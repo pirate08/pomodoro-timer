@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemBar from '../ui/ItemBar';
+import Sessions from '@/ui/Sessions';
 
 const PomodoroTimer = () => {
   return (
@@ -14,9 +15,17 @@ const PomodoroTimer = () => {
         </p>
       </div>
       {/* --Box goes here-- */}
-      <div className='bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-xl py-10 px-6 w-full max-w-xl text-white'>
-        <ItemBar />
+      <div className='flex flex-col bg-white/10 backdrop-blur-md border border-white/20 rounded-lg shadow-xl py-10 px-6 w-full max-w-xl text-white'>
+        {/* --Itembar-- */}
+        <div>
+          <ItemBar />
+        </div>
+        {/* --Session Part-- */}
+        <div className='mt-10'>
+          <Sessions />
+        </div>
       </div>
+
       {/* --End Paragraph-- */}
       <div>
         <p className='text-md text-gray-400 text-center w-full md:max-w-xl mx-auto'>
