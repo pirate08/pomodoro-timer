@@ -5,6 +5,7 @@ import ProgressBar from '@/ui/ProgressBar';
 import { RiResetLeftLine } from 'react-icons/ri';
 import { IoIosPause } from 'react-icons/io';
 import { VscDebugStart } from 'react-icons/vsc';
+import { useSound } from 'react-sounds';
 
 const TOTAL_SECONDS = 5 * 60;
 
@@ -13,20 +14,35 @@ const ShortBreak = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(TOTAL_SECONDS);
 
+  // Initialize sound hooks
+  const { play: playStartSound } = useSound('notification/info');
+  const { play: playResetSound } = useSound('notification/popup');
+  const { play: playPauseSound } = useSound('ui/blocked');
+  const { play: playCountdownSound } = useSound('arcade/coin');
+
   // --Effect to handle timer logic
   useEffect(() => {
     let interval: NodeJS.Timeout;
     if (isRunning && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft((prev) => prev - 1);
+        setTimeLeft((prev) => {
+          const newTime = prev - 1;
+
+          if (newTime <= 5 && newTime > 0) {
+            playCountdownSound();
+          }
+
+          return newTime;
+        });
       }, 1000);
     } else if (timeLeft === 0) {
+      playCountdownSound();
       setIsRunning(false);
       setStart(false);
       setTimeLeft(TOTAL_SECONDS);
     }
     return () => clearInterval(interval);
-  }, [isRunning, timeLeft]);
+  }, [isRunning, timeLeft, playCountdownSound]);
 
   // --Format time in MM : SS
   const formatTime = (seconds: number): string => {
@@ -40,12 +56,20 @@ const ShortBreak = () => {
 
   // --Handle start and pause--
   const handleStartPause = () => {
+    if (!start) {
+      // Starting the timer
+      playStartSound();
+    } else {
+      // Pausing the timer
+      playPauseSound();
+    }
     setStart(!start);
     setIsRunning(!isRunning);
   };
 
   // --Handle reset
   const handleReset = () => {
+    playResetSound();
     setIsRunning(false);
     setTimeLeft(TOTAL_SECONDS);
     setStart(false);

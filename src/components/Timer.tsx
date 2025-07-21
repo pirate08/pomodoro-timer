@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { RiResetLeftLine } from 'react-icons/ri';
 import { IoIosPause } from 'react-icons/io';
 import { VscDebugStart } from 'react-icons/vsc';
+import { useSound } from 'react-sounds';
 
 const TOTAL_SECONDS = 86400;
 
@@ -12,6 +13,11 @@ const Timer = () => {
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [timePassed, setTimePassed] = useState<number>(0);
   const [start, setStart] = useState<boolean>(false);
+
+  // Initialize sound hooks
+  const { play: playStartSound } = useSound('notification/info');
+  const { play: playResetSound } = useSound('notification/popup');
+  const { play: playPauseSound } = useSound('ui/blocked');
 
   // Handle timer start and pause
   useEffect(() => {
@@ -40,14 +46,22 @@ const Timer = () => {
     return `${h} : ${m} : ${s}`;
   };
 
-  // --Handle start and pause--
+  // Handle start and pause with sound effects
   const handleStartPause = () => {
+    if (!start) {
+      // Starting the timer
+      playStartSound();
+    } else {
+      // Pausing the timer
+      playPauseSound();
+    }
     setStart(!start);
     setIsRunning(!isRunning);
   };
 
-  // --Handle reset
+  // Handle reset with sound effect
   const handleReset = () => {
+    playResetSound();
     setIsRunning(false);
     setTimePassed(0);
     setStart(false);
