@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ProgressBarProps {
-  time: any;
+  time: string;
   label: string;
   progress: number;
 }
