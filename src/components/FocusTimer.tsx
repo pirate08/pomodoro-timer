@@ -1,7 +1,7 @@
 'use client';
 
 import ProgressBar from '@/ui/ProgressBar';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RiResetLeftLine } from 'react-icons/ri';
 import { IoIosPause } from 'react-icons/io';
 import { VscDebugStart } from 'react-icons/vsc';
@@ -13,6 +13,9 @@ const FocusTimer = () => {
   const [start, setStart] = useState<boolean>(false);
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState<number>(TOTAL_SECONDS);
+
+  // ✅ Add a ref to track if session was already saved
+  const sessionSaved = useRef(false);
 
   // Initialize sound hooks
   const { play: playStartSound } = useSound('notification/info');
@@ -34,11 +37,13 @@ const FocusTimer = () => {
           return newTime;
         });
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft === 0 && !sessionSaved.current) {
+      // ✅ Only run if session hasn't been saved yet
+      sessionSaved.current = true; // Mark as saved
+
       playCountdownSound();
       setIsRunning(false);
       setStart(false);
-      setTimeLeft(TOTAL_SECONDS);
 
       // --Store session count--
       const sessionCount = Number(localStorage.getItem('focusSessions') || 0);
@@ -50,6 +55,11 @@ const FocusTimer = () => {
         const cycleCount = Number(localStorage.getItem('cyclesDone') || 0);
         localStorage.setItem('cyclesDone', (cycleCount + 1).toString());
       }
+
+      // ✅ Refresh the page after session ends
+      setTimeout(() => {
+        window.location.reload();
+      }, 500); // Small delay to ensure sound plays and data is saved
     }
     return () => clearInterval(interval);
   }, [isRunning, timeLeft, playCountdownSound]);
@@ -82,6 +92,7 @@ const FocusTimer = () => {
     setIsRunning(false);
     setTimeLeft(TOTAL_SECONDS);
     setStart(false);
+    sessionSaved.current = false;
   };
 
   // --Progress bar calculation
